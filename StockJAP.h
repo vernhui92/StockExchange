@@ -2,7 +2,6 @@
 #define STOCK_H_
 
 
-
 #include <string>
 #include <cmath>
 using std::string;
