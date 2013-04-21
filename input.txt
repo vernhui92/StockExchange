@@ -1,2 +1,14 @@
-Hello World
-Hello World
+add? AKR 25955000s5.6875
+add? AIF 14254000s4.5
+add? ACL 194059000s20.5
+add? AK 34880000s14.1875
+add? ACG 56617000s7.0
+add? AOF 13028000s7.625
+whisper? All trades done.  Final set of "top" timings:
+pause?
+printTopByVolume? 30
+printTopByPercentUp? 30
+printTopByPercentDown? 30
+printTopByPercentChange? 30
+printTopByMomentum? 30
+printTopByTrendTrades? 30

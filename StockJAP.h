@@ -6,8 +6,7 @@
 #include <cmath>
 using std::string;
 
-class Stock
-{
+class Stock {
 public:
 	const string name;
 	const size_t capital;
@@ -225,7 +224,5 @@ inline bool operator!=(const T& lhs, const T& rhs)
 {
 	return !(lhs == rhs);
 }
-
-
 
 #endif
