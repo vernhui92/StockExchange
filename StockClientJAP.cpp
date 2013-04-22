@@ -18,8 +18,8 @@ void StockInputBuffer(const string &input) {
 		string action = input.substr(0, actionIn);
 		if (action == "add") {
 			while (ss >> buf) {
-        		split.push_back(buf);
-    		} 
+				split.push_back(buf);
+			}
 			int size = split.size()-1;
 			int priceStart = split[size].find('s'); // get location of 's' in last pos of vec.
 			size_t priceEnd = split[size].size(); // get the size of the last element in the vec
@@ -46,8 +46,8 @@ void StockInputBuffer(const string &input) {
 	else {
 		cout << "Hello" << endl;
 		while (ss >> buf) {
-    		split.push_back(buf);
-    	} 
+			split.push_back(buf);
+		} 
 	}
 
 };
