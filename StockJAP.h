@@ -38,7 +38,6 @@ public:
 		return name == rhs.name;
 	}
 
-
 	size_t Volume() const
 	{
 		return volume;
@@ -168,7 +167,37 @@ public:
 
 class Proxy_byPercentUp
 {
-	 // To do ...
+	const Stock* ptr;
+
+public:
+	Proxy_byPercentUp(const Stock* pointer)
+		:ptr(pointer) {}
+
+	Proxy_byPercentUp()
+		:ptr(NULL) {}
+
+	Proxy_byPercentUp(const Proxy_byPercentUp& rhs)
+		:ptr(rhs.ptr) {}
+
+	Proxy_byPercentUp& operator=(const Proxy_byPercentUp& rhs) {
+		ptr = rhs.ptr;
+		return *this;
+	}
+
+	const Stock& operator*() const
+	{
+		return *ptr;
+	}
+
+	bool operator<(const Proxy_byPercentUp& rhs) const
+	{
+		return ptr->Volume() < rhs.ptr->Volume();
+	}
+
+	bool operator==(const Proxy_byPercentUp& rhs) const
+	{
+		return ptr->Volume() == rhs.ptr->Volume();
+	}
 };
 
 
