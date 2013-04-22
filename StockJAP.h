@@ -7,6 +7,7 @@
 using std::string;
 
 class Stock {
+
 public:
 	const string name;
 	const size_t capital;
@@ -112,7 +113,7 @@ private:
 
 	void init()
 	{
-		volume = 0;
+		volume = capital;
 		percent_up = 0.0;
 		percent_down = 0.0;
 		percent_change = 0.0;

@@ -4,5 +4,13 @@ add? ACL 194059000s20.5
 add? AK 34880000s14.1875
 add? ACG 56617000s7.0
 add? AOF 13028000s7.625
+whisper? Finished adding starting prices, now processing trades:
+pause?
+AKR 1500s9.6875
+AIF 1500s7.5
+ACL 1500s18.5
+AK  1500s14.1875
+ACG 1500s75.0
+AOF 1500s72.625
 whisper? All trades done.  Final set of "top" timings:
 pause?
