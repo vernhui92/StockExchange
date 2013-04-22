@@ -1,3 +1,7 @@
+/** File StockJAP.h built by Joseph Peacock for CSE 250, Spring 2013 
+
+*/
+
 #ifndef STOCK_H_
 #define STOCK_H_
 
