@@ -33,6 +33,8 @@ void StockInputBuffer(const string &input) {
 			cout << StockItem.name << endl;
 			// This gives us a Hashtable full of StockItem Obects.
 
+			// TODO: Insert into HashTable here.. 
+
 		}
 		else if (action == "whisper") {
 			cout << input.substr(actionIn+2, input.size()) << endl;
