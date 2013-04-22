@@ -22,8 +22,8 @@ void StockInputBuffer(const string &input) {
     		} 
 			int size = split.size()-1;
 			int priceStart = split[size].find('s'); // get location of 's' in last pos of vec.
-		    size_t priceEnd = split[size].size(); // get the size of the last element in the vec
-		    split.push_back(split[size].substr(priceStart+1, priceEnd)); // get the price and append
+			size_t priceEnd = split[size].size(); // get the size of the last element in the vec
+			split.push_back(split[size].substr(priceStart+1, priceEnd)); // get the price and append
 			split[size] = split[size].substr(0, priceStart); // replace the second last with volume
 
 			double initPrice = atof(split[3].c_str());
