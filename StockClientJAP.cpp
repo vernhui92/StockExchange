@@ -10,8 +10,8 @@ using namespace std;
 
 void StockInputBuffer(const string &input) {
 	vector<string> split; // Create vector to hold our words
-    string buf; // Have a buffer string
-    stringstream ss(input); // Insert the string into a stream 
+	string buf; // Have a buffer string
+	stringstream ss(input); // Insert the string into a stream 
 
 	int actionIn = input.find('?');
 	if (actionIn) {
