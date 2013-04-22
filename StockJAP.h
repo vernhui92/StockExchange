@@ -311,8 +311,6 @@ public:
 	}
 };
 
-
-
 class Proxy_byTrend
 {
 		const Stock* ptr;
@@ -347,8 +345,6 @@ public:
 		return ptr->Trend() == rhs.ptr->Trend();
 	}
 };
-
-
 
 template<class T>
 inline bool operator<=(const T& lhs, const T& rhs)

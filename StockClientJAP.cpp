@@ -16,6 +16,7 @@ void StockInput(const string &input) {
 	while (ss >> buf) {
 		split.push_back(buf);
 	}
+
 	int size = split.size()-1;
 	int priceStart = split[size].find('s'); // get location of 's' in last pos of vec.
 	size_t priceEnd = split[size].size(); // get the size of the last element in the vec
@@ -35,7 +36,7 @@ void StockInput(const string &input) {
 	cout << StockName << " starts at " << StockItem.init_price << endl;
 	cout << StockItem.PercentUp() << "% change" << endl;
 
-	// TODO: Insert into HashTable here.. 
+	// TODO: Insert StockItem Object into HashTable here.. 
 };
 
 void ProcessStockTrade(const string &input) {
@@ -62,10 +63,7 @@ void ProcessStockTrade(const string &input) {
 	// Done
 
 	cout << StockName << " traded at " << Price << " and " << Shares << " shares." << endl;
-
-
-}	
-
+};	
 
 
 int main(int argc, char* argv[]) {
