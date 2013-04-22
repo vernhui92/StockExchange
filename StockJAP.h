@@ -191,12 +191,12 @@ public:
 
 	bool operator<(const Proxy_byPercentUp& rhs) const
 	{
-		return ptr->Volume() < rhs.ptr->Volume();
+		return ptr->PercentUp() < rhs.ptr->PercentUp();
 	}
 
 	bool operator==(const Proxy_byPercentUp& rhs) const
 	{
-		return ptr->Volume() == rhs.ptr->Volume();
+		return ptr->PercentUp() == rhs.ptr->PercentUp();
 	}
 };
 
@@ -204,28 +204,148 @@ public:
 
 class Proxy_byPercentDown
 {
-	 // To do ...
+		const Stock* ptr;
+
+public:
+	Proxy_byPercentDown(const Stock* pointer)
+		:ptr(pointer) {}
+
+	Proxy_byPercentDown()
+		:ptr(NULL) {}
+
+	Proxy_byPercentDown(const Proxy_byPercentDown& rhs)
+		:ptr(rhs.ptr) {}
+
+	Proxy_byPercentDown& operator=(const Proxy_byPercentDown& rhs) {
+		ptr = rhs.ptr;
+		return *this;
+	}
+
+	const Stock& operator*() const
+	{
+		return *ptr;
+	}
+
+	bool operator<(const Proxy_byPercentDown& rhs) const
+	{
+		return ptr->PercentDown() < rhs.ptr->PercentDown();
+	}
+
+	bool operator==(const Proxy_byPercentDown& rhs) const
+	{
+		return ptr->PercentDown() == rhs.ptr->PercentDown();
+	}
 };
 
 
 
 class Proxy_byPercentChange
 {
-	 // To do ...
+	 	const Stock* ptr;
+
+public:
+	Proxy_byPercentChange(const Stock* pointer)
+		:ptr(pointer) {}
+
+	Proxy_byPercentChange()
+		:ptr(NULL) {}
+
+	Proxy_byPercentChange(const Proxy_byPercentChange& rhs)
+		:ptr(rhs.ptr) {}
+
+	Proxy_byPercentChange& operator=(const Proxy_byPercentChange& rhs) {
+		ptr = rhs.ptr;
+		return *this;
+	}
+
+	const Stock& operator*() const
+	{
+		return *ptr;
+	}
+
+	bool operator<(const Proxy_byPercentChange& rhs) const
+	{
+		return ptr->PercentChange() < rhs.ptr->PercentChange();
+	}
+
+	bool operator==(const Proxy_byPercentChange& rhs) const
+	{
+		return ptr->PercentChange() == rhs.ptr->PercentChange();
+	}
 };
 
 
 
 class Proxy_byMomentum
 {
-	 // To do ...
+	 	const Stock* ptr;
+
+public:
+	Proxy_byMomentum(const Stock* pointer)
+		:ptr(pointer) {}
+
+	Proxy_byMomentum()
+		:ptr(NULL) {}
+
+	Proxy_byMomentum(const Proxy_byMomentum& rhs)
+		:ptr(rhs.ptr) {}
+
+	Proxy_byMomentum& operator=(const Proxy_byMomentum& rhs) {
+		ptr = rhs.ptr;
+		return *this;
+	}
+
+	const Stock& operator*() const
+	{
+		return *ptr;
+	}
+
+	bool operator<(const Proxy_byMomentum& rhs) const
+	{
+		return ptr->Momentum() < rhs.ptr->Momentum();
+	}
+
+	bool operator==(const Proxy_byMomentum& rhs) const
+	{
+		return ptr->Momentum() == rhs.ptr->Momentum();
+	}
 };
 
 
 
 class Proxy_byTrend
 {
-	 // To do ...
+		const Stock* ptr;
+
+public:
+	Proxy_byTrend(const Stock* pointer)
+		:ptr(pointer) {}
+
+	Proxy_byTrend()
+		:ptr(NULL) {}
+
+	Proxy_byTrend(const Proxy_byTrend& rhs)
+		:ptr(rhs.ptr) {}
+
+	Proxy_byTrend& operator=(const Proxy_byTrend& rhs) {
+		ptr = rhs.ptr;
+		return *this;
+	}
+
+	const Stock& operator*() const
+	{
+		return *ptr;
+	}
+
+	bool operator<(const Proxy_byTrend& rhs) const
+	{
+		return ptr->Trend() < rhs.ptr->Trend();
+	}
+
+	bool operator==(const Proxy_byTrend& rhs) const
+	{
+		return ptr->Trend() == rhs.ptr->Trend();
+	}
 };
 
 
