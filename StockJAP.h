@@ -13,8 +13,8 @@ public:
 	const double init_price;
 
 
-	Stock(const string& name, const size_t& capital, const size_t& init_price)
-		:name(name), capital(capital), init_price(init_price){init();}
+	Stock(const string& name, const size_t& capital, const double& init_price)
+		:name(name), capital(capital), init_price(init_price){ init(); }
 
 	Stock()
 		:name(""), capital(0), init_price(0.0){init();}
@@ -67,7 +67,6 @@ public:
 	{
 		return trend;
 	}
-
 
 	void process_trade(size_t shares, double price)
 	{

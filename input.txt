@@ -6,9 +6,3 @@ add? ACG 56617000s7.0
 add? AOF 13028000s7.625
 whisper? All trades done.  Final set of "top" timings:
 pause?
-printTopByVolume? 30
-printTopByPercentUp? 30
-printTopByPercentDown? 30
-printTopByPercentChange? 30
-printTopByMomentum? 30
-printTopByTrendTrades? 30
