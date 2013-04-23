@@ -6,9 +6,11 @@
 #include <vector>
 #include <sstream>
 #include "StockJAP.h"
+#include "HeapJAP.h"
+/*#include "ChainedHash.h"*/
 using namespace std;
 
-void StockInput(const string &input) {
+Stock* StockInput(const string &input) {
 	vector<string> split; // Create vector to hold our words
 	string buf; // Have a buffer string
 	stringstream ss(input); // Insert the string into a stream 
@@ -25,18 +27,14 @@ void StockInput(const string &input) {
 
 	double initPrice = atof(split[3].c_str());
 
-	Stock StockItem(split[1], atoi(split[2].c_str()), initPrice);
+	Stock *StockItem = new Stock(split[1], atoi(split[2].c_str()), initPrice);
 
-	// Slap this Stock Item into the HashTable at position based on StockItem.name hash
+	string StockName = StockItem->name;
 
-	string StockName = StockItem.name;
+	cout << StockName << " starts at " << StockItem->init_price << endl;
+	/*cout << StockItem->PercentUp() << "% change" << endl;*/
 
-	// This gives us a Hashtable full of StockItem Obects.
-
-	cout << StockName << " starts at " << StockItem.init_price << endl;
-	cout << StockItem.PercentUp() << "% change" << endl;
-
-	// TODO: Insert StockItem Object into HashTable here.. 
+	return StockItem;
 };
 
 void ProcessStockTrade(const string &input) {
@@ -63,7 +61,7 @@ void ProcessStockTrade(const string &input) {
 	// Done
 
 	cout << StockName << " traded at " << Price << " and " << Shares << " shares." << endl;
-};	
+};
 
 
 int main(int argc, char* argv[]) {
@@ -72,7 +70,10 @@ int main(int argc, char* argv[]) {
 	} else {
 		string input_string = argv[1];
 		ifstream fin(input_string.c_str());	
-		vector<int> vec;
+		vector<Stock*> HeapVec; // Populated by pointers to stock objects and passed to 
+		// heap class temporarily because I do not have the Hashtable files yet.
+
+		/*StockHash Hashtable;*/
 
 		// REQ fin must be valid file.
 		if (fin.is_open()) {
@@ -85,7 +86,9 @@ int main(int argc, char* argv[]) {
 				if (actionIn > 0) {
 					string action = line.substr(0, actionIn);
 					if (action == "add") {
-						StockInput(line);				
+						Stock* item = StockInput(line);
+						HeapVec.push_back(item);	
+						// Hashtable.insert(item);
 					}
 					else if (action == "whisper") {
 						cout << line.substr(actionIn+2, line.size()) << endl;
@@ -93,15 +96,22 @@ int main(int argc, char* argv[]) {
 					else if (action == "pause") {
 						cout << "Pausing..." << endl;
 					}
+					else if(action == "GetProxyByVolume") {
+						// Testing only, will be integrating HashTable Next
+						Heap<Stock> test(HeapVec);
+						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+						test.makeHeap();
+					}
 				} else {
 					ProcessStockTrade(line);
 				}
 
-			}	
+			}
+
 			fin.close();			
 		} else {
 			cout << "File doesn't exist!" << endl;			
 		}
 	}
-
+	return 0;
 }

@@ -282,7 +282,7 @@ public:
 
 class Proxy_byMomentum
 {
-	 	const Stock* ptr;
+	 const Stock* ptr;
 
 public:
 	Proxy_byMomentum(const Stock* pointer)

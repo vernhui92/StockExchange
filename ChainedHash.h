@@ -6,7 +6,7 @@
 using std::vector;
 
 template <typename I>
-class MorphedValli
+class StockHash
 {
 public:
 	class iterator
@@ -16,7 +16,7 @@ public:
 		iterator(const typename DList<I>::iterator& l_iter)
 			:list_iter(l_iter){}
 
-		friend class MorphedValli<I>;
+		friend class StockHash<I>;
 
 	public:
 		iterator(const iterator& other)
@@ -63,7 +63,7 @@ private:
 	size_t n, buckets;
 
 public:
-	explicit MorphedValli(size_t buckets = 10000)
+	explicit StockHash(size_t buckets = 10000)
 		:list(DList<I>())
 		,vec(vector<iterator>())
 		,n(0), buckets(buckets)
@@ -76,7 +76,7 @@ public:
 		vec.push_back(iterator(list.end()));
 	}
 
-	~MorphedValli(){}
+	~StockHash(){}
 
 	iterator begin() const
 	{
@@ -91,8 +91,21 @@ public:
 	iterator find(const I& item) const
 	{
 		// To do ...
+		size_t h = hash(item) % buckets;
+		
+		if(vec[h] == NULL)
+			return end();
+		else
+		{
+			Dlist<I> *itr = vec[h].list_iter;
+			while(itr != NULL && itr.data != item)
+				itr = itr.next;
+			return NULL;
+			
+		}
+		
 	}
-
+		
 	iterator insert(const I& item)
 	{
 		size_t h = hash(item) % buckets;
@@ -101,6 +114,15 @@ public:
 				return iter;
 		++n;
 		return iterator(list.insert(vec[h+1].list_iter, item));
+	}
+
+	// write one simple hash function here
+	size_t hash(const I& item)
+	{
+		size_t h = 0;
+		for(size_t i=0; i < item.size(); ++i)
+			h = h * 31 + item[i];
+		return h;
 	}
 
 	size_t size() const
