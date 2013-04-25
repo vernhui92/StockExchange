@@ -140,7 +140,7 @@ int main(int argc, char* argv[]) {
 							for (int i = 0; i < NumtoDisplay && heap_byPercentDown.size() > 0; i++) {
 								top.push_back(heap_byPercentDown.pop());
 								const Stock& stock = *top[top.size() - 1];
-								cout << stock.name << " " << stock.PercentDown() << "%" << endl;
+								cout << stock.name << " -" << stock.PercentDown() << "%" << endl;
 							}
 
 							for (int i = 0; i < top.size(); i++) {
