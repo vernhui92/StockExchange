@@ -82,18 +82,21 @@ int main(int argc, char* argv[]) {
 					} else if (action == "pause") {
 						cout << "Pausing..." << endl;
 					} else if (action == "GetProxyByVolume") {
+
 						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
 
-						size_t k = 5;
-						heap_byVolume.make_heap();
+						heap_byVolume.makeHeap();
 						vector<Proxy_byVolume> top;
-						for (size_t i = 0; i < k && heap_byVolume.size() > 0; i++) {
+					
+
+						for (size_t i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
 							top.push_back(heap_byVolume.pop());
 							const Stock& stock = *top[top.size() - 1];
 						}
-						for (size_t i = 0; i < top.size(); i++)
-						heap_byVolume.push(top[i]);
-						cout << NumtoDisplay << endl;
+
+						for (size_t i = 0; i < top.size(); i++) {
+							heap_byVolume.push(top[i]); 
+						}
 
 					}
 				} else {

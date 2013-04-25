@@ -90,20 +90,11 @@ public:
 
 	iterator find(const I& item) const
 	{
-		// To do ...
 		size_t h = hash(item) % buckets;
-		
-		if(vec[h] == NULL)
-			return end();
-		else
-		{
-			DList<I> *itr = vec[h].list_iter;
-			while(itr != NULL && itr.data != item)
-				itr = itr.next;
-			return NULL;
-			
-		}
-		
+		for (iterator iter = vec[h]; iter != vec[h+1]; iter++)
+			if (*iter == item)
+				return iter;
+		return end();		
 	}
 		
 	iterator insert(const I& item)
@@ -114,15 +105,6 @@ public:
 				return iter;
 		++n;
 		return iterator(list.insert(vec[h+1].list_iter, item));
-	}
-
-	// write one simple hash function here
-	size_t hash(const I& item)
-	{
-		size_t h = 0;
-		for(size_t i=0; i < item.name.size(); ++i)
-			h = h * 31 + item.name[i];
-		return h;
 	}
 
 	size_t size() const
@@ -140,5 +122,20 @@ public:
 		return list.toString();
 	}
 };
+// write one simple hash function here
+size_t hash(const string& s)
+{
+	size_t h = 0;
+	for(size_t i=0; i < s.size(); ++i)
+		h = h * 31 + s[i];
+	return h;
+}
+
+#include "StockJAP.h"
+
+size_t hash(const Stock& stock)
+{
+	return hash(stock.name);
+}
 
 #endif
