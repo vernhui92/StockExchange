@@ -7,7 +7,7 @@
 #include <sstream>
 #include "StockJAP.h"
 #include "HeapJAP.h"
-#include "ChainedHash.h"
+#include "ChainedHashVHL.h"
 using namespace std;
 
 vector<string> split(const string &input) {
@@ -18,15 +18,13 @@ vector<string> split(const string &input) {
 	while (ss >> buf) {
 		split.push_back(buf);
 	}
-
 	int size = split.size()-1;
 	int priceStart = split[size].find('s'); // get location of 's' in last pos of vec.
 	size_t priceEnd = split[size].size(); // get the size of the last element in the vec
 	split.push_back(split[size].substr(priceStart+1, priceEnd)); // get the price and append
+	
 	split[size] = split[size].substr(0, priceStart); // replace the second last with volume
-
-	double initPrice = atof(split[3].c_str());
-
+	
 	return split;
 };
 
@@ -84,17 +82,102 @@ int main(int argc, char* argv[]) {
 					} else if (action == "GetProxyByVolume") {
 
 						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
-
+						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
 						heap_byVolume.makeHeap();
 						vector<Proxy_byVolume> top;
-					
 
-						for (size_t i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
+						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
 							top.push_back(heap_byVolume.pop());
 							const Stock& stock = *top[top.size() - 1];
+							cout << stock.name << " " << stock.Volume() << endl;
 						}
 
-						for (size_t i = 0; i < top.size(); i++) {
+						for (int i = 0; i < top.size(); i++) {
+							heap_byVolume.push(top[i]); 
+						}
+
+					} else if (action == "GetProxyByVolume") {
+
+						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
+						heap_byVolume.makeHeap();
+						vector<Proxy_byVolume> top;
+
+						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
+							top.push_back(heap_byVolume.pop());
+							const Stock& stock = *top[top.size() - 1];
+							cout << stock.name << " " << stock.Volume() << endl;
+						}
+
+						for (int i = 0; i < top.size(); i++) {
+							heap_byVolume.push(top[i]); 
+						}
+
+					} else if (action == "GetProxyByVolume") {
+
+						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
+						heap_byVolume.makeHeap();
+						vector<Proxy_byVolume> top;
+
+						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
+							top.push_back(heap_byVolume.pop());
+							const Stock& stock = *top[top.size() - 1];
+							cout << stock.name << " " << stock.Volume() << endl;
+						}
+
+						for (int i = 0; i < top.size(); i++) {
+							heap_byVolume.push(top[i]); 
+						}
+
+					} else if (action == "GetProxyByVolume") {
+
+						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
+						heap_byVolume.makeHeap();
+						vector<Proxy_byVolume> top;
+
+						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
+							top.push_back(heap_byVolume.pop());
+							const Stock& stock = *top[top.size() - 1];
+							cout << stock.name << " " << stock.Volume() << endl;
+						}
+
+						for (int i = 0; i < top.size(); i++) {
+							heap_byVolume.push(top[i]); 
+						}
+
+					} else if (action == "GetProxyByVolume") {
+
+						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
+						heap_byVolume.makeHeap();
+						vector<Proxy_byVolume> top;
+
+						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
+							top.push_back(heap_byVolume.pop());
+							const Stock& stock = *top[top.size() - 1];
+							cout << stock.name << " " << stock.Volume() << endl;
+						}
+
+						for (int i = 0; i < top.size(); i++) {
+							heap_byVolume.push(top[i]); 
+						}
+
+					} else if (action == "GetProxyByVolume") {
+
+						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
+						heap_byVolume.makeHeap();
+						vector<Proxy_byVolume> top;
+
+						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
+							top.push_back(heap_byVolume.pop());
+							const Stock& stock = *top[top.size() - 1];
+							cout << stock.name << " " << stock.Volume() << endl;
+						}
+
+						for (int i = 0; i < top.size(); i++) {
 							heap_byVolume.push(top[i]); 
 						}
 
@@ -102,6 +185,7 @@ int main(int argc, char* argv[]) {
 				} else {
 					// Split Input
 					vector<string> trade = split(line);
+
 					string StockName = trade[0];
 					int Shares = atoi(trade[1].c_str());
 					double Price = atof(trade[2].c_str());
