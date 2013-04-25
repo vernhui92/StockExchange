@@ -51,147 +51,148 @@ int main(int argc, char* argv[]) {
 			while (!fin.eof()) {
 				string line;
 				getline(fin, line);
+				if (line != "") {
+					int actionIn = line.find('?');
+					if (actionIn > 0) {
+						string action = line.substr(0, actionIn);
+						if (action == "add") {
+							// Split the input String
+							vector<string> add = split(line); 
 
-				int actionIn = line.find('?');
-				if (actionIn > 0) {
-					string action = line.substr(0, actionIn);
-					if (action == "add") {
-						// Split the input String
-						vector<string> add = split(line); 
+							int volume = atoi(add[2].c_str());
+							double price = atof(add[3].c_str());
+							string name = add[1];
 
-						int volume = atoi(add[2].c_str());
-						double price = atof(add[3].c_str());
-						string name = add[1];
+							// Create Stock Object
+							Stock stock(name, volume, price);
+							Stock* stock_ptr = &*table.insert(stock);
 
-						// Create Stock Object
-						Stock stock(name, volume, price);
-						Stock* stock_ptr = &*table.insert(stock);
+							// Add Stock Pointer to each heap
+							heap_byVolume.push(stock_ptr);
+							heap_byPercentUp.push(stock_ptr);
+							heap_byPercentDown.push(stock_ptr);
+							heap_byPercentChange.push(stock_ptr);
+							heap_byMomentum.push(stock_ptr);
+							heap_byTrend.push(stock_ptr);
 
-						// Add Stock Pointer to each heap
-						heap_byVolume.push(stock_ptr);
-						heap_byPercentUp.push(stock_ptr);
-						heap_byPercentDown.push(stock_ptr);
-						heap_byPercentChange.push(stock_ptr);
-						heap_byMomentum.push(stock_ptr);
-						heap_byTrend.push(stock_ptr);
+						} else if (action == "whisper") {
+							cout << line.substr(actionIn+2, line.size()) << endl;
+						} else if (action == "pause") {
+							cout << "Pausing..." << endl;
+						} else if (action == "printTopByVolume") {
 
-					} else if (action == "whisper") {
-						cout << line.substr(actionIn+2, line.size()) << endl;
-					} else if (action == "pause") {
-						cout << "Pausing..." << endl;
-					} else if (action == "GetProxyByVolume") {
+							int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+							cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
+							heap_byVolume.makeHeap();
+							vector<Proxy_byVolume> top;
 
-						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
-						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
-						heap_byVolume.makeHeap();
-						vector<Proxy_byVolume> top;
+							for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
+								top.push_back(heap_byVolume.pop());
+								const Stock& stock = *top[top.size() - 1];
+								cout << stock.name << " " << stock.Volume() << endl;
+							}
 
-						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
-							top.push_back(heap_byVolume.pop());
-							const Stock& stock = *top[top.size() - 1];
-							cout << stock.name << " " << stock.Volume() << endl;
+							for (int i = 0; i < top.size(); i++) {
+								heap_byVolume.push(top[i]); 
+							}
+
+						} else if (action == "printTopByPercentUp") {
+
+							int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+							cout << "Displaying top " << NumtoDisplay << " results by Percent up:" << endl;
+							heap_byPercentUp.makeHeap();
+							vector<Proxy_byPercentUp> top;
+
+							for (int i = 0; i < NumtoDisplay && heap_byPercentUp.size() > 0; i++) {
+								top.push_back(heap_byPercentUp.pop());
+								const Stock& stock = *top[top.size() - 1];
+								cout << stock.name << " " << stock.PercentUp() << "%" << endl;
+							}
+
+							for (int i = 0; i < top.size(); i++) {
+								heap_byPercentUp.push(top[i]); 
+							}
+
+						} else if (action == "printTopByPercentChange") {
+
+							int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+							cout << "Displaying top " << NumtoDisplay << " results by Percent Change:" << endl;
+							heap_byPercentChange.makeHeap();
+							vector<Proxy_byPercentChange> top;
+
+							for (int i = 0; i < NumtoDisplay && heap_byPercentChange.size() > 0; i++) {
+								top.push_back(heap_byPercentChange.pop());
+								const Stock& stock = *top[top.size() - 1];
+								cout << stock.name << " " << stock.PercentChange() << "%" << endl;
+							}
+
+							for (int i = 0; i < top.size(); i++) {
+								heap_byPercentChange.push(top[i]); 
+							}
+
+						} else if (action == "printTopByPercentDown") {
+
+							int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+							cout << "Displaying top " << NumtoDisplay << " results by Percent Down:" << endl;
+							heap_byPercentDown.makeHeap();
+							vector<Proxy_byPercentDown> top;
+
+							for (int i = 0; i < NumtoDisplay && heap_byPercentDown.size() > 0; i++) {
+								top.push_back(heap_byPercentDown.pop());
+								const Stock& stock = *top[top.size() - 1];
+								cout << stock.name << " " << stock.PercentDown() << "%" << endl;
+							}
+
+							for (int i = 0; i < top.size(); i++) {
+								heap_byPercentDown.push(top[i]); 
+							}
+
+						} else if (action == "printTopByMomentum") {
+
+							int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+							cout << "Displaying top " << NumtoDisplay << " results by Momentum:" << endl;
+							heap_byMomentum.makeHeap();
+							vector<Proxy_byMomentum> top;
+
+							for (int i = 0; i < NumtoDisplay && heap_byMomentum.size() > 0; i++) {
+								top.push_back(heap_byMomentum.pop());
+								const Stock& stock = *top[top.size() - 1];
+								cout << stock.name << " " << stock.Momentum() << endl;
+							}
+
+							for (int i = 0; i < top.size(); i++) {
+								heap_byMomentum.push(top[i]); 
+							}
+
+						} else if (action == "printTopByTrendTrades") {
+
+							int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+							cout << "Displaying top " << NumtoDisplay << " results by Trend:" << endl;
+							heap_byTrend.makeHeap();
+							vector<Proxy_byTrend> top;
+
+							for (int i = 0; i < NumtoDisplay && heap_byTrend.size() > 0; i++) {
+								top.push_back(heap_byTrend.pop());
+								const Stock& stock = *top[top.size() - 1];
+								cout << stock.name << " " << stock.Trend() << endl;
+							}
+
+							for (int i = 0; i < top.size(); i++) {
+								heap_byTrend.push(top[i]); 
+							}
+
 						}
+					} else {
+						// Split Input
+						vector<string> trade = split(line);
 
-						for (int i = 0; i < top.size(); i++) {
-							heap_byVolume.push(top[i]); 
-						}
-
-					} else if (action == "GetProxyByVolume") {
-
-						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
-						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
-						heap_byVolume.makeHeap();
-						vector<Proxy_byVolume> top;
-
-						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
-							top.push_back(heap_byVolume.pop());
-							const Stock& stock = *top[top.size() - 1];
-							cout << stock.name << " " << stock.Volume() << endl;
-						}
-
-						for (int i = 0; i < top.size(); i++) {
-							heap_byVolume.push(top[i]); 
-						}
-
-					} else if (action == "GetProxyByVolume") {
-
-						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
-						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
-						heap_byVolume.makeHeap();
-						vector<Proxy_byVolume> top;
-
-						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
-							top.push_back(heap_byVolume.pop());
-							const Stock& stock = *top[top.size() - 1];
-							cout << stock.name << " " << stock.Volume() << endl;
-						}
-
-						for (int i = 0; i < top.size(); i++) {
-							heap_byVolume.push(top[i]); 
-						}
-
-					} else if (action == "GetProxyByVolume") {
-
-						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
-						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
-						heap_byVolume.makeHeap();
-						vector<Proxy_byVolume> top;
-
-						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
-							top.push_back(heap_byVolume.pop());
-							const Stock& stock = *top[top.size() - 1];
-							cout << stock.name << " " << stock.Volume() << endl;
-						}
-
-						for (int i = 0; i < top.size(); i++) {
-							heap_byVolume.push(top[i]); 
-						}
-
-					} else if (action == "GetProxyByVolume") {
-
-						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
-						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
-						heap_byVolume.makeHeap();
-						vector<Proxy_byVolume> top;
-
-						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
-							top.push_back(heap_byVolume.pop());
-							const Stock& stock = *top[top.size() - 1];
-							cout << stock.name << " " << stock.Volume() << endl;
-						}
-
-						for (int i = 0; i < top.size(); i++) {
-							heap_byVolume.push(top[i]); 
-						}
-
-					} else if (action == "GetProxyByVolume") {
-
-						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
-						cout << "Displaying top " << NumtoDisplay << " results by Volume:" << endl;
-						heap_byVolume.makeHeap();
-						vector<Proxy_byVolume> top;
-
-						for (int i = 0; i < NumtoDisplay && heap_byVolume.size() > 0; i++) {
-							top.push_back(heap_byVolume.pop());
-							const Stock& stock = *top[top.size() - 1];
-							cout << stock.name << " " << stock.Volume() << endl;
-						}
-
-						for (int i = 0; i < top.size(); i++) {
-							heap_byVolume.push(top[i]); 
-						}
-
+						string StockName = trade[0];
+						int Shares = atoi(trade[1].c_str());
+						double Price = atof(trade[2].c_str());
+						// Process Actual Trade
+						Stock* stock_ptr = &*table.find(StockName);
+						stock_ptr->process_trade(Shares, Price);
 					}
-				} else {
-					// Split Input
-					vector<string> trade = split(line);
-
-					string StockName = trade[0];
-					int Shares = atoi(trade[1].c_str());
-					double Price = atof(trade[2].c_str());
-					// Process Actual Trade
-					Stock* stock_ptr = &*table.find(StockName);
-					stock_ptr->process_trade(Shares, Price);
 				}
 
 			}
