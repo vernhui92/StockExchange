@@ -59,11 +59,11 @@ int main(int argc, char* argv[]) {
 					string action = line.substr(0, actionIn);
 					if (action == "add") {
 						// Split the input String
-						vector<string> test = split(line); 
+						vector<string> add = split(line); 
 
-						int volume = atoi(test[2].c_str());
-						double price = atof(test[3].c_str());
-						string name = test[1];
+						int volume = atoi(add[2].c_str());
+						double price = atof(add[3].c_str());
+						string name = add[1];
 
 						// Create Stock Object
 						Stock stock(name, volume, price);
@@ -83,17 +83,28 @@ int main(int argc, char* argv[]) {
 						cout << "Pausing..." << endl;
 					} else if (action == "GetProxyByVolume") {
 						int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+
+						size_t k = 5;
+						heap_byVolume.make_heap();
+						vector<Proxy_byVolume> top;
+						for (size_t i = 0; i < k && heap_byVolume.size() > 0; i++) {
+							top.push_back(heap_byVolume.pop());
+							const Stock& stock = *top[top.size() - 1];
+						}
+						for (size_t i = 0; i < top.size(); i++)
+						heap_byVolume.push(top[i]);
 						cout << NumtoDisplay << endl;
 
 					}
 				} else {
-
-					Stock* stock_ptr = &*table.find("NCF");
-					// "find" returns an interator.
-					// "*" dereferences that iterator and returns a stock.
-					// "&" returns the address of that stock.
-					stock_ptr->process_trade(1000, 150);
-					ProcessStockTrade(line);
+					// Split Input
+					vector<string> trade = split(line);
+					string StockName = trade[0];
+					int Shares = atoi(trade[1].c_str());
+					double Price = atof(trade[2].c_str());
+					// Process Actual Trade
+					Stock* stock_ptr = &*table.find(StockName);
+					stock_ptr->process_trade(Shares, Price);
 				}
 
 			}
