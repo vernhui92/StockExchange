@@ -6,45 +6,67 @@
 #define StockExchange_HeapJAP_h
 
 #include <vector>
+using std::vector;
 
 template<class I>
 class Heap {
-	std::vector<I*> elements;
-	std::vector<I>* results;
+	vector<I> elements;
 
 public:
-	Heap(std::vector<I*> Ptrs);
+	Heap();
+	int size() const;
 	void makeHeap();
-	std::vector<I> getTopResults(int ItemsToReturn);
+	void fixDown(int index);
+	I pop();
+	void push(I newItem);
 };
 
 template <class I>
-Heap<I>::Heap(std::vector<I*> Ptrs) {
-	elements = Ptrs;
-	results = new std::vector<I>;
+Heap<I>::Heap():elements(vector<I>(1)) { }
+
+template <class I>
+int Heap<I>::size() const{
+	return elements.size()-1;
+}
+
+template <class I>
+void Heap<I>::fixDown(int index) {
+	I temp = elements[index];
+	while(2*index <= size()) {
+		int child = 2*index;
+		if (child < size() && elements[child+1] > elements[child]) {
+			child++;
+		}
+		if (temp >= elements[child]) {
+			break;
+		}
+		elements[index] = elements[child];
+		index = child;
+	}
+	elements[index] = temp;
 }
 
 template <class I>
 void Heap<I>::makeHeap() {
-	std::cout << "Hello World" << std::endl;
-	for (int i=0; i <elements.size(); i++) {
-		std::cout << "Pointers currently in heap " << elements[i]->name << std::endl;
-		std::cout << "With volume: " << elements[i]->Volume() << std::endl;
+	for (int index = (size()/2); index >= 1; index--) {
+		fixDown(index);
 	}
-
-	// Receive proxy type
-	// Sort with proxy
-	// Done.
 }
 
 template <class I>
-std::vector<I> Heap<I>::getTopResults(int ItemsToReturn) {
-	for (int i=0; i<ItemsToReturn; i++) {
-		I item = elements.pop();
-		results->push_back(item);
-		elements.push_back(item);
+I Heap<I>::pop() {
+	I temp = elements[1];
+	elements[1] = elements[size()];
+	elements.pop_back();
+	if (size() > 0) {
+		fixDown(1);
 	}
-	return results;
+	return temp;
+}
+
+template <class I>
+void Heap<I>::push(I newItem) {
+	elements.push_back(newItem);
 }
 
 #endif

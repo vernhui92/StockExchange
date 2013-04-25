@@ -97,7 +97,7 @@ public:
 			return end();
 		else
 		{
-			Dlist<I> *itr = vec[h].list_iter;
+			DList<I> *itr = vec[h].list_iter;
 			while(itr != NULL && itr.data != item)
 				itr = itr.next;
 			return NULL;
@@ -120,8 +120,8 @@ public:
 	size_t hash(const I& item)
 	{
 		size_t h = 0;
-		for(size_t i=0; i < item.size(); ++i)
-			h = h * 31 + item[i];
+		for(size_t i=0; i < item.name.size(); ++i)
+			h = h * 31 + item.name[i];
 		return h;
 	}
 
