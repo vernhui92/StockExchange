@@ -204,6 +204,8 @@ int main(int argc, char* argv[]) {
 								heap_byTrendShares.push(top[i]); 
 							}
 
+						} else if (action == "printAll") {
+							// todo
 						}
 					} else {
 						// Split Input
