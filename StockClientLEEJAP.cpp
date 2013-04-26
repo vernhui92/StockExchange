@@ -230,3 +230,46 @@ int main(int argc, char* argv[]) {
 	}
 	return 0;
 }
+
+/* 
+
+Heap Questions - Joseph Peacock
+
+a) My heap stores proxy objects which contain pointers to the stock class.
+b) No, my code uses the proxy object, which has the pointer to each stock object
+   to get the information directly.
+c) No, unless make_heap was called it was nothing more than an unsorted vector of proxy objects. 
+d) My function objects take arguments of type const Stock*.
+e) The function objects only used public methods of the stock class, therefore
+   my Stock class was not "friends" with the proxy classes.
+f) My stock class expects the client to parse the string, and then run the 
+   process_trade() function on the stock pointer after looking it up in the hashtable.
+g) My stock class, just maintains the fields. So the fields are updated and added/subtracted
+   to/from when another transaction is made.
+h) No I had not thought of this. You could do it in this particular case, however it kind
+   of takes away from being entirely modular. So I could see how there is an up and a 
+   down side to it.
+
+Timing Tests w/ Hash:
+Run 1:  328470 microseconds
+Run 2:  330699 microseconds
+Run 3:  333277 microseconds
+Run 4:  330057 microseconds
+Run 5:  329110 microseconds
+Run 6:  332014 microseconds
+Run 7:  328907 microseconds
+Run 8:  330550 microseconds
+Run 9:  358274 microseconds
+Run 10: 329493 microseconds
+AVG ->  333085 microseconds
+	or	0.333085 seconds
+
+// Need to do with std::set or Valli & Compare
+
+// Report on differences & why | Combined answer
+
+
+
+
+
+*/
