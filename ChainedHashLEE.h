@@ -1,3 +1,8 @@
+//Writer   : Vern Hui LEE
+//Subject  : CSE250 Project 2     
+//Date     : April 25, 2013
+//Filename : ChainedHashLEE.h
+ 
 #ifndef MORPHED_VALLI_H_
 #define MORPHED_VALLI_H_
 

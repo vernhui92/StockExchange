@@ -1,4 +1,4 @@
-/* dictintersectJAP.cpp by Joseph Peacock for CSE 250 Spring 2013 */
+/* dictintersectJAP.cpp by Joseph Peacock and Vern Hui LEE for CSE 250 Spring 2013 */
 
 #include <iostream>
 #include <cstdlib>
@@ -7,7 +7,8 @@
 #include <sstream>
 #include "StockJAP.h"
 #include "HeapJAP.h"
-#include "ChainedHashVHL.h"
+#include "ChainedHashLEE.h"
+#include "HiResTimer.h"
 using namespace std;
 
 vector<string> split(const string &input) {
@@ -22,9 +23,9 @@ vector<string> split(const string &input) {
 	int priceStart = split[size].find('s'); // get location of 's' in last pos of vec.
 	size_t priceEnd = split[size].size(); // get the size of the last element in the vec
 	split.push_back(split[size].substr(priceStart+1, priceEnd)); // get the price and append
-	
+
 	split[size] = split[size].substr(0, priceStart); // replace the second last with volume
-	
+
 	return split;
 };
 
@@ -36,6 +37,7 @@ int main(int argc, char* argv[]) {
 	Heap<Proxy_byPercentChange> heap_byPercentChange;
 	Heap<Proxy_byMomentum> heap_byMomentum;
 	Heap<Proxy_byTrend> heap_byTrend;
+	Heap<Proxy_byTrendShares> heap_byTrendShares;
 
 	if (argc < 2) { 
 		cout << "Usage: ./filename input_file" << endl;
@@ -44,7 +46,10 @@ int main(int argc, char* argv[]) {
 		ifstream fin(input_string.c_str());	
 		vector<Stock*> HeapVec; // Populated by pointers to stock objects and passed to 
 		// heap class temporarily because I do not have the Hashtable files yet.
-
+		
+		HiResTimer* timer = new HiResTimer();
+		timer->reset();
+		
 		// REQ fin must be valid file.
 		if (fin.is_open()) {
 			// REQ fin must not be at the end of the file.
@@ -74,6 +79,7 @@ int main(int argc, char* argv[]) {
 							heap_byPercentChange.push(stock_ptr);
 							heap_byMomentum.push(stock_ptr);
 							heap_byTrend.push(stock_ptr);
+							heap_byTrendShares.push(stock_ptr);
 
 						} else if (action == "whisper") {
 							cout << line.substr(actionIn+2, line.size()) << endl;
@@ -140,7 +146,7 @@ int main(int argc, char* argv[]) {
 							for (int i = 0; i < NumtoDisplay && heap_byPercentDown.size() > 0; i++) {
 								top.push_back(heap_byPercentDown.pop());
 								const Stock& stock = *top[top.size() - 1];
-								cout << stock.name << " -" << stock.PercentDown() << "%" << endl;
+								cout << stock.name << " " << stock.PercentDown() << "%" << endl;
 							}
 
 							for (int i = 0; i < top.size(); i++) {
@@ -181,6 +187,23 @@ int main(int argc, char* argv[]) {
 								heap_byTrend.push(top[i]); 
 							}
 
+						} else if (action == "printTopByTrendShares") {
+
+							int NumtoDisplay = atoi((line.substr(actionIn+2, line.size())).c_str());
+							cout << "Displaying top " << NumtoDisplay << " results by TrendShares:" << endl;
+							heap_byTrendShares.makeHeap();
+							vector<Proxy_byTrendShares> top;
+
+							for (int i = 0; i < NumtoDisplay && heap_byTrendShares.size() > 0; i++) {
+								top.push_back(heap_byTrendShares.pop());
+								const Stock& stock = *top[top.size() - 1];
+								cout << stock.name << " " << stock.TrendShares() << endl;
+							}
+
+							for (int i = 0; i < top.size(); i++) {
+								heap_byTrendShares.push(top[i]); 
+							}
+
 						}
 					} else {
 						// Split Input
@@ -196,11 +219,14 @@ int main(int argc, char* argv[]) {
 				}
 
 			}
-	
+			cout << "Total timing : " << timer->elapsedTime() <<" "<< timer->getUnits() << endl;
+			timer->reset();
+
 			fin.close();			
 		} else {
 			cout << "File doesn't exist!" << endl;			
 		}
+		delete(timer);
 	}
 	return 0;
 }

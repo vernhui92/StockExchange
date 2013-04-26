@@ -72,6 +72,11 @@ public:
 		return trend;
 	}
 
+	size_t TrendShares() const
+	{
+		return trendShares;
+	}
+
 	void process_trade(size_t shares, double price)
 	{
 		prev_price = curr_price;
@@ -99,6 +104,7 @@ public:
 			trend = 0;
 			trend_sign = 0;
 		}
+		trendShares = trend + volume;
 	}
 
 
@@ -109,6 +115,7 @@ private:
 	double percent_change;
 	double momentum;
 	size_t trend;
+	size_t trendShares;
 
 	double curr_price;
 	double prev_price;
@@ -122,6 +129,7 @@ private:
 		percent_change = 0.0;
 		momentum = 0.0;
 		trend = 0;
+		trendShares = 0;
 
 		curr_price = init_price;
 		prev_price = init_price;
@@ -347,6 +355,41 @@ public:
 	bool operator==(const Proxy_byTrend& rhs) const
 	{
 		return ptr->Trend() == rhs.ptr->Trend();
+	}
+};
+
+class Proxy_byTrendShares
+{
+		const Stock* ptr;
+
+public:
+	Proxy_byTrendShares(const Stock* pointer)
+		:ptr(pointer) {}
+
+	Proxy_byTrendShares()
+		:ptr(NULL) {}
+
+	Proxy_byTrendShares(const Proxy_byTrendShares& rhs)
+		:ptr(rhs.ptr) {}
+
+	Proxy_byTrendShares& operator=(const Proxy_byTrendShares& rhs) {
+		ptr = rhs.ptr;
+		return *this;
+	}
+
+	const Stock& operator*() const
+	{
+		return *ptr;
+	}
+
+	bool operator<(const Proxy_byTrendShares& rhs) const
+	{
+		return ptr->TrendShares() < rhs.ptr->TrendShares();
+	}
+
+	bool operator==(const Proxy_byTrendShares& rhs) const
+	{
+		return ptr->TrendShares() == rhs.ptr->TrendShares();
 	}
 };
 
